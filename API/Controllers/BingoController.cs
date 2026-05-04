@@ -1,7 +1,9 @@
 using System.Linq;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BingoAPI.DAL;
+using BingoAPI.Models;
 using BingoAPI.Models.DTOs.Get;
 
 namespace BingoAPI.Controllers;
@@ -31,6 +33,58 @@ public class BingoController : ControllerBase
         return Ok(card);
     }
 
+    [HttpPost("cartela")]
+    public async Task<IActionResult> CreateCartela([FromQuery] Guid roomUuid, [FromQuery] Guid playerUuid, [FromQuery] string? roomName = null)
+    {
+        if (roomUuid == Guid.Empty || playerUuid == Guid.Empty)
+        {
+            return BadRequest(new { message = "Os parâmetros 'roomUuid' e 'playerUuid' são obrigatórios." });
+        }
+
+        var sala = await _context.Salas
+            .Include(s => s.SalasCartelas)
+            .FirstOrDefaultAsync(s => s.Uuid == roomUuid);
+
+        if (sala == null)
+        {
+            sala = new Sala
+            {
+                Uuid = roomUuid,
+                Name = string.IsNullOrWhiteSpace(roomName) ? $"Sala-{roomUuid:N}" : roomName.Trim()
+            };
+            _context.Salas.Add(sala);
+        }
+
+        var card = new BingoCardDto(
+            B: GenerateNumbers(1, 15, 5),
+            I: GenerateNumbers(16, 30, 5),
+            N: GenerateNColumn(),
+            G: GenerateNumbers(46, 60, 5),
+            O: GenerateNumbers(61, 75, 5)
+        );
+
+        var cardJson = JsonSerializer.Serialize(card);
+        var salaCartela = new SalaCartela
+        {
+            Sala = sala,
+            SalaUuid = sala.Uuid,
+            PlayerUuid = playerUuid,
+            CardJson = cardJson,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        _context.SalasCartelas.Add(salaCartela);
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            salaUuid = sala.Uuid,
+            playerUuid,
+            cartelaId = salaCartela.Id,
+            card
+        });
+    }
+
     [HttpPost("sorteia")]
     public async Task<IActionResult> Sorteia([FromQuery] string room)
     {
@@ -41,17 +95,17 @@ public class BingoController : ControllerBase
 
         var roomName = room.Trim();
 
-        var gameRoom = await _context.GameRooms
+        var sala = await _context.Salas
             .Include(r => r.DrawnNumbers)
             .FirstOrDefaultAsync(r => r.Name == roomName);
 
-        if (gameRoom == null)
+        if (sala == null)
         {
-            gameRoom = new Models.GameRoom { Name = roomName };
-            _context.GameRooms.Add(gameRoom);
+            sala = new Sala { Name = roomName };
+            _context.Salas.Add(sala);
         }
 
-        var drawnNumbers = gameRoom.DrawnNumbers.Select(d => d.Number).ToHashSet();
+        var drawnNumbers = sala.DrawnNumbers.Select(d => d.Number).ToHashSet();
         if (drawnNumbers.Count >= 75)
         {
             return BadRequest(new { message = "Todos os números já foram sorteados nesta sala." });
@@ -62,11 +116,11 @@ public class BingoController : ControllerBase
             .ToList();
 
         var nextNumber = availableNumbers[Random.Shared.Next(availableNumbers.Count)];
-        var drawn = new Models.DrawnNumber
+        var drawn = new DrawnNumber
         {
             Number = nextNumber,
             DrawnAt = DateTime.UtcNow,
-            GameRoom = gameRoom
+            Sala = sala
         };
 
         _context.DrawnNumbers.Add(drawn);
@@ -85,16 +139,16 @@ public class BingoController : ControllerBase
 
         var roomName = room.Trim();
 
-        var gameRoom = await _context.GameRooms
+        var sala = await _context.Salas
             .Include(r => r.DrawnNumbers)
             .FirstOrDefaultAsync(r => r.Name == roomName);
 
-        if (gameRoom == null)
+        if (sala == null)
         {
             return NotFound(new { message = "Sala não encontrada." });
         }
 
-        var numbers = gameRoom.DrawnNumbers
+        var numbers = sala.DrawnNumbers
             .OrderBy(d => d.DrawnAt)
             .Select(d => d.Number)
             .ToList();

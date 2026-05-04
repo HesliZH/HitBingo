@@ -1,0 +1,32 @@
+# Build outputs
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment files
+appsettings.Development.json
+DadosAcesso.json
+
+# Database files
+*.db
+*.sqlite
+
+# NuGet packages
+packages/
+
+# Temporary files
+*.tmp

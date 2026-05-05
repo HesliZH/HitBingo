@@ -12,14 +12,15 @@ O objetivo deste projeto é construir uma API de bingo organizada, segura e prep
 
 ### Principais funcionalidades
 
-- Criação de salas de bingo com UUID único
+- Criação de salas de bingo com UUID único, nome, senha de proteção, limite de jogadores e status
 - Geração de cartelas de bingo por jogador
-- Persistência de cartelas em banco de dados
+- Persistência de cartelas em banco de dados associadas a salas
 - Sorteio de números de `1` a `75` sem repetição por sala
 - Consulta dos números já sorteados em cada sala
 - Autenticação de usuário com JWT
 - Validação de dados com FluentValidation
 - Documentação via Swagger / OpenAPI
+- Front-end em Angular para interface do usuário
 
 ---
 
@@ -27,19 +28,15 @@ O objetivo deste projeto é construir uma API de bingo organizada, segura e prep
 
 - `bingo.sln` — solução principal
 - `API/` — backend RESTful em ASP.NET Core
-- `Front/` — front-end do projeto (se houver implementado)
+- `Front/` — front-end em Angular
 - `estrutura.md` — estrutura e notas do projeto
 
 ---
 
 ## 🚀 Tecnologias usadas
 
-- ASP.NET Core 9.0
-- Entity Framework Core 9.0
-- PostgreSQL
-- JWT Bearer Authentication
-- FluentValidation
-- Swagger/OpenAPI
+- **Backend:** ASP.NET Core 9.0, Entity Framework Core 9.0, PostgreSQL, JWT Bearer Authentication, FluentValidation, Swagger/OpenAPI
+- **Frontend:** Angular, TypeScript, SCSS
 
 ---
 
@@ -71,11 +68,23 @@ dotnet ef database update
 dotnet run
 ```
 
-5. Acesse a documentação do Swagger
+5. Instale as dependências do front-end
 
-```text
-https://localhost:5001/swagger
+```bash
+cd ../Front
+npm install
 ```
+
+6. Inicie o front-end
+
+```bash
+npm run start
+```
+
+7. Acesse a aplicação
+
+- API: `https://localhost:5001/swagger`
+- Front-end: `http://localhost:4200`
 
 ---
 
@@ -85,6 +94,10 @@ https://localhost:5001/swagger
 
 - `POST /api/auth/register` — registra um usuário
 - `POST /api/auth/login` — obtém token JWT
+
+### Salas
+
+- `POST /api/bingo/sala` — cria uma nova sala de bingo com nome, senha, limite de jogadores e status
 
 ### Bingo
 
@@ -100,7 +113,7 @@ https://localhost:5001/swagger
 O projeto possui tabelas importantes para o funcionamento do bingo:
 
 - `Users` — cadastro de usuário
-- `SALAS` — salas de jogo com UUID único
+- `SALAS` — salas de jogo com UUID único, nome, limite de jogadores, senha hash, status e data de criação
 - `SALAS_CARTELAS` — cartelas associadas a salas e jogadores
 - `DrawnNumbers` — números já sorteados por sala
 
@@ -125,7 +138,6 @@ Vou continuar incrementando o README com:
 - instruções de teste
 - exemplos de requisições completas
 - roteiro de desenvolvimento
-- descrição do front-end
 - deploy e CI/CD
 
 ---

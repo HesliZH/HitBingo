@@ -1,3 +1,5 @@
+using BingoAPI.Models.Enums;
+
 namespace BingoAPI.Models;
 
 public class Sala
@@ -5,6 +7,9 @@ public class Sala
     public int Id { get; set; }
     public Guid Uuid { get; set; } = Guid.NewGuid();
     public string Name { get; set; } = string.Empty;
+    public int MaxPlayers { get; set; }
+    public string PasswordHash { get; set; } = string.Empty;
+    public SalaStatus Status { get; set; } = SalaStatus.AGUARDANDO;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public List<SalaCartela> SalasCartelas { get; set; } = new();
     public List<DrawnNumber> DrawnNumbers { get; set; } = new();

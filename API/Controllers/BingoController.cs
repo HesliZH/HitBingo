@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using BingoAPI.DAL;
 using BingoAPI.Models;
 using BingoAPI.Models.DTOs.Get;
+using BingoAPI.Models.DTOs.PostPut;
+using BingoAPI.Utils;
 
 namespace BingoAPI.Controllers;
 
@@ -83,6 +85,45 @@ public class BingoController : ControllerBase
             cartelaId = salaCartela.Id,
             card
         });
+    }
+
+    [HttpPost("sala")]
+    public async Task<IActionResult> CreateSala([FromBody] CreateSalaDto dto)
+    {
+        if (dto == null)
+        {
+            return BadRequest(new { message = "Dados da sala são obrigatórios." });
+        }
+
+        if (string.IsNullOrWhiteSpace(dto.Name))
+        {
+            return BadRequest(new { message = "O nome da sala é obrigatório." });
+        }
+
+        if (dto.MaxPlayers <= 0)
+        {
+            return BadRequest(new { message = "O número máximo de jogadores deve ser maior que zero." });
+        }
+
+        if (string.IsNullOrWhiteSpace(dto.Password))
+        {
+            return BadRequest(new { message = "A senha da sala é obrigatória." });
+        }
+
+        var sala = new Sala
+        {
+            Uuid = Guid.NewGuid(),
+            Name = dto.Name.Trim(),
+            MaxPlayers = dto.MaxPlayers,
+            PasswordHash = PasswordHasher.HashPassword(dto.Password),
+            Status = dto.Status,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        _context.Salas.Add(sala);
+        await _context.SaveChangesAsync();
+
+        return Created(string.Empty, new SalaResponseDto(sala.Uuid, sala.Name, sala.MaxPlayers, sala.Status, sala.CreatedAt));
     }
 
     [HttpPost("sorteia")]

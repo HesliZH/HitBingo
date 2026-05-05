@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using BingoAPI.Models;
+using BingoAPI.Models.Enums;
 
 namespace BingoAPI.DAL;
 
@@ -41,7 +42,13 @@ public class BingoDbContext : DbContext
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Uuid).IsRequired();
             entity.HasIndex(e => e.Uuid).IsUnique();
-            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.MaxPlayers).IsRequired();
+            entity.Property(e => e.PasswordHash).IsRequired();
+            entity.Property(e => e.Status)
+                  .IsRequired()
+                  .HasConversion<string>()
+                  .HasMaxLength(20);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("NOW()");
             entity.HasMany(e => e.SalasCartelas)
                   .WithOne(c => c.Sala)

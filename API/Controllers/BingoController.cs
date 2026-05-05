@@ -123,7 +123,14 @@ public class BingoController : ControllerBase
         _context.Salas.Add(sala);
         await _context.SaveChangesAsync();
 
-        return Created(string.Empty, new SalaResponseDto(sala.Uuid, sala.Name, sala.MaxPlayers, sala.Status, sala.CreatedAt));
+        return Created(string.Empty, new
+        {
+            salaUuid = sala.Uuid,
+            sala.Name,
+            sala.MaxPlayers,
+            sala.Status,
+            sala.CreatedAt
+        });
     }
 
     [HttpPost("sorteia")]

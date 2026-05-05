@@ -1,0 +1,212 @@
+@import '../../../variables.scss';
+
+.navbar {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  @include box-shadow(0, 2px, 8px, 0, rgba(0, 0, 0, 0.1));
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: $spacing-md;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @include responsive('md') {
+    padding: $spacing-sm;
+  }
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+
+  a {
+    text-decoration: none;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  .logo {
+    font-size: $text-2xl;
+    font-weight: $font-bold;
+    color: var(--primary-color);
+  }
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+
+  @include responsive('md') {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding: $spacing-md;
+    gap: $spacing-md;
+    max-height: 0;
+    overflow: hidden;
+    @include transition(max-height 0.3s ease-in-out);
+
+    &.active {
+      max-height: 400px;
+    }
+  }
+
+  a {
+    color: var(--text-secondary);
+    font-weight: $font-medium;
+    @include transition;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $radius-md;
+
+    &:hover,
+    &.active {
+      color: var(--primary-color);
+      background-color: rgba(100, 31, 94, 0.1);
+    }
+
+    @include responsive('md') {
+      width: 100%;
+      text-align: left;
+    }
+  }
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+
+  @include responsive('md') {
+    flex-direction: column;
+    width: 100%;
+    gap: $spacing-sm;
+  }
+
+  .user-name {
+    color: var(--text-primary);
+    font-weight: $font-medium;
+    font-size: $text-sm;
+
+    @include responsive('md') {
+      display: none;
+    }
+  }
+
+  .btn-logout {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    padding: $spacing-sm $spacing-md;
+
+    &:hover {
+      background-color: var(--primary-color);
+      color: $white;
+    }
+
+    @include responsive('md') {
+      width: 100%;
+    }
+  }
+}
+
+.auth-menu {
+  display: flex;
+  gap: $spacing-md;
+  align-items: center;
+
+  @include responsive('md') {
+    flex-direction: column;
+    width: 100%;
+    gap: $spacing-sm;
+  }
+
+  a {
+    @include responsive('md') {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .btn-register {
+    background-color: var(--primary-color);
+    color: $white !important;
+    border-radius: $radius-md;
+    padding: $spacing-sm $spacing-lg;
+
+    &:hover {
+      opacity: 0.9;
+    }
+
+    @include responsive('md') {
+      width: 100%;
+    }
+  }
+}
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: $spacing-sm;
+
+  @include responsive('md') {
+    display: flex;
+  }
+
+  span {
+    width: 25px;
+    height: 2px;
+    background-color: var(--text-primary);
+    @include transition(all 0.3s ease-in-out);
+    border-radius: $radius-full;
+  }
+
+  &.active {
+    span:nth-child(1) {
+      transform: rotate(45deg) translate(10px, 10px);
+    }
+
+    span:nth-child(2) {
+      opacity: 0;
+    }
+
+    span:nth-child(3) {
+      transform: rotate(-45deg) translate(8px, -8px);
+    }
+  }
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  font-size: $text-xl;
+  cursor: pointer;
+  padding: $spacing-sm;
+  @include transition;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  @include responsive('md') {
+    width: 100%;
+    text-align: center;
+  }
+}

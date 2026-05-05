@@ -1,0 +1,61 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Entrar no Jogo 🎮</h1>
+      <p>Acesse sua conta para jogar</p>
+    </div>
+
+    <div *ngIf="error" class="alert alert-error">
+      {{ error }}
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="seu@email.com"
+          [class.is-invalid]="submitted && f['email'].errors"
+        />
+        <div *ngIf="submitted && f['email'].errors" class="error-text">
+          <span *ngIf="f['email'].errors['required']">Email é obrigatório</span>
+          <span *ngIf="f['email'].errors['email']">Email inválido</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="••••••••"
+          [class.is-invalid]="submitted && f['password'].errors"
+        />
+        <div *ngIf="submitted && f['password'].errors" class="error-text">
+          <span *ngIf="f['password'].errors['required']">Senha é obrigatória</span>
+          <span *ngIf="f['password'].errors['minlength']">Senha deve ter no mínimo 6 caracteres</span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg" [disabled]="loading">
+        <span *ngIf="!loading">Entrar</span>
+        <span *ngIf="loading">Entrando...</span>
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Não tem conta? <a routerLink="/auth/register">Cadastre-se aqui</a></p>
+    </div>
+  </div>
+
+  <div class="auth-image">
+    <div class="decoration">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+    </div>
+  </div>
+</div>

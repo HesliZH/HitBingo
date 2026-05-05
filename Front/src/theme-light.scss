@@ -1,0 +1,46 @@
+@import 'variables';
+
+// ===== TEMA CLARO =====
+body.theme-light {
+  --bg-primary: #{$white};
+  --bg-secondary: #{$gray-50};
+  --bg-tertiary: #{$gray-100};
+  --text-primary: #{$gray-900};
+  --text-secondary: #{$gray-600};
+  --text-tertiary: #{$gray-500};
+  --border-color: #{$gray-200};
+  --primary-color: #{$primary};
+  --secondary-color: #{$secondary};
+  --tertiary-color: #{$tertiary};
+  --quaternary-color: #{$quaternary};
+  --quintary-color: #{$quintary};
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+}
+
+// ===== TEMA ESCURO =====
+body.theme-dark {
+  --bg-primary: #{$gray-900};
+  --bg-secondary: #{$gray-800};
+  --bg-tertiary: #{$gray-700};
+  --text-primary: #{$white};
+  --text-secondary: #{$gray-300};
+  --text-tertiary: #{$gray-400};
+  --border-color: #{$gray-700};
+  --primary-color: #{lighten($primary, 15%)};
+  --secondary-color: #{lighten($secondary, 15%)};
+  --tertiary-color: #{lighten($tertiary, 10%)};
+  --quaternary-color: #{$quaternary};
+  --quintary-color: #{$quintary};
+  --success: #059669;
+  --warning: #d97706;
+  --error: #dc2626;
+  --info: #2563eb;
+}
+
+// ===== APLICAÇÃO PADRÃO =====
+body {
+  @extend body, .theme-light;
+}

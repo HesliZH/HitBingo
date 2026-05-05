@@ -1,0 +1,44 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <a routerLink="/home">
+        <span class="logo">🎲 BINGO</span>
+      </a>
+    </div>
+
+    <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="navbar-menu" [class.active]="isMenuOpen">
+      <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="isMenuOpen = false">
+        Home
+      </a>
+
+      <div *ngIf="user; else noUserMenu" class="user-menu">
+        <a routerLink="/game" routerLinkActive="active" (click)="isMenuOpen = false">
+          Jogar
+        </a>
+        <span class="user-name">{{ user.nome }}</span>
+        <button class="btn-logout" (click)="logout()">Sair</button>
+      </div>
+
+      <ng-template #noUserMenu>
+        <div class="auth-menu">
+          <a routerLink="/auth/login" routerLinkActive="active" (click)="isMenuOpen = false">
+            Entrar
+          </a>
+          <a routerLink="/auth/register" routerLinkActive="active" (click)="isMenuOpen = false" class="btn-register">
+            Cadastro
+          </a>
+        </div>
+      </ng-template>
+
+      <button class="theme-toggle" (click)="toggleTheme()" title="Alternar tema">
+        🌙
+      </button>
+    </div>
+  </div>
+</nav>

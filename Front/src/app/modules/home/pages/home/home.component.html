@@ -1,0 +1,75 @@
+<div class="home-container">
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1>Bem-vindo ao BINGO! 🎲</h1>
+      <p *ngIf="!user" class="subtitle">
+        Divirta-se jogando Bingo online com amigos e desconhecidos
+      </p>
+      <p *ngIf="user" class="subtitle">
+        Olá {{ user.nome }}! Pronto para jogar?
+      </p>
+
+      <div class="hero-actions">
+        <a *ngIf="!user" routerLink="/auth/login" class="btn btn-primary btn-lg">
+          Começar a Jogar
+        </a>
+        <a *ngIf="user" routerLink="/game" class="btn btn-primary btn-lg">
+          Entrar no Jogo
+        </a>
+        <a *ngIf="!user" routerLink="/auth/register" class="btn btn-secondary btn-lg">
+          Criar Conta
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <div class="bingo-card">
+        <div class="card-header">BINGO</div>
+        <div class="card-grid">
+          <div *ngFor="let num of [1, 2, 3]" class="card-number">{{ num }}</div>
+          <div *ngFor="let num of [4, 5, 6]" class="card-number">{{ num }}</div>
+          <div *ngFor="let num of [7, 8, 'X']" class="card-number" [class.free]="num === 'X'">
+            {{ num }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="features-section">
+    <h2>Por que jogar com a gente?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎮</div>
+        <h3>Jogo Emocionante</h3>
+        <p>Experimente a adrenalina do Bingo em tempo real com jogadores de todo o mundo.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3>Comunidade Vibrante</h3>
+        <p>Conecte-se com amigos e faça novas amizades enquanto joga.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🏆</div>
+        <h3>Prêmios Incríveis</h3>
+        <p>Compete e ganhe prêmios através de nossas salas de jogo.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3>Disponível em Qualquer Lugar</h3>
+        <p>Jogue no seu computador, tablet ou smartphone, quando quiser.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <h2>Comece a jogar agora!</h2>
+    <p>Cadastre-se gratuitamente e receba um bônus de boas-vindas</p>
+    <a *ngIf="!user" routerLink="/auth/register" class="btn btn-primary btn-lg">
+      Cadastro Grátis
+    </a>
+  </div>
+</div>

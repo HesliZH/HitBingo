@@ -1,0 +1,220 @@
+@import '../../../../../../variables.scss';
+
+.auth-container {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-xl;
+  padding: $spacing-lg;
+  align-items: center;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+
+  @include responsive('md') {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+.auth-card {
+  background-color: var(--bg-secondary);
+  padding: $spacing-2xl;
+  border-radius: $radius-lg;
+  @include box-shadow(0, 8px, 24px, 0, rgba(0, 0, 0, 0.1));
+  border: 1px solid var(--border-color);
+
+  @include responsive('md') {
+    padding: $spacing-lg;
+    border-radius: $radius-lg;
+  }
+
+  .auth-header {
+    text-align: center;
+    margin-bottom: $spacing-2xl;
+
+    h1 {
+      color: var(--text-primary);
+      margin-bottom: $spacing-sm;
+      font-size: $text-3xl;
+
+      @include responsive('md') {
+        font-size: $text-2xl;
+      }
+    }
+
+    p {
+      color: var(--text-secondary);
+      font-size: $text-base;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-sm;
+
+      label {
+        color: var(--text-primary);
+        font-weight: $font-medium;
+        font-size: $text-sm;
+      }
+
+      input {
+        @include input-base;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        border-color: var(--border-color);
+        padding: $spacing-md;
+
+        &::placeholder {
+          color: var(--text-tertiary);
+        }
+
+        &:focus {
+          border-color: var(--primary-color);
+          box-shadow: 0 0 0 3px rgba(100, 31, 94, 0.1);
+        }
+
+        &.is-invalid {
+          border-color: var(--error);
+
+          &:focus {
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+          }
+        }
+      }
+
+      .error-text {
+        color: var(--error);
+        font-size: $text-xs;
+        margin-top: $spacing-xs;
+      }
+    }
+
+    .btn {
+      @include button-base;
+      padding: $spacing-md $spacing-lg;
+      font-size: $text-base;
+      font-weight: $font-semibold;
+      background-color: var(--primary-color);
+      color: $white;
+      border: none;
+      cursor: pointer;
+      @include transition;
+
+      &:hover:not(:disabled) {
+        @include box-shadow(0, 8px, 16px, 0, rgba(100, 31, 94, 0.3));
+        transform: translateY(-2px);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      &.btn-lg {
+        padding: $spacing-md $spacing-2xl;
+        min-height: 48px;
+      }
+    }
+  }
+
+  .auth-footer {
+    text-align: center;
+    margin-top: $spacing-lg;
+
+    p {
+      color: var(--text-secondary);
+      font-size: $text-sm;
+
+      a {
+        color: var(--primary-color);
+        font-weight: $font-semibold;
+        @include transition;
+
+        &:hover {
+          opacity: 0.8;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+.auth-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  @include responsive('md') {
+    display: none;
+  }
+
+  .decoration {
+    position: relative;
+    width: 300px;
+    height: 300px;
+
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      @include transition;
+
+      &.circle-1 {
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(100, 31, 94, 0.1) 0%, transparent 70%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      &.circle-2 {
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(102, 172, 146, 0.1) 0%, transparent 70%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation: float 6s ease-in-out infinite;
+      }
+
+      &.circle-3 {
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, rgba(194, 191, 146, 0.1) 0%, transparent 70%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation: float 8s ease-in-out infinite reverse;
+      }
+    }
+  }
+}
+
+.alert {
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-lg;
+  font-size: $text-sm;
+
+  &.alert-error {
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #dc2626;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0px);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(20px);
+  }
+}

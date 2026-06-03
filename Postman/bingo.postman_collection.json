@@ -1,0 +1,145 @@
+{
+  "info": {
+    "name": "Bingo API",
+    "_postman_id": "bingo-api-collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Coleção Postman para os endpoints de Auth e Bingo"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000", "type": "string" },
+    { "key": "roomName", "value": "Sala-1", "type": "string" },
+    { "key": "roomUuid", "value": "", "type": "string" },
+    { "key": "playerUuid", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"user1\",\n  \"email\": \"user1@example.com\",\n  \"password\": \"P@ssw0rd\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","auth","register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"user1\",\n  \"password\": \"P@ssw0rd\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","auth","login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Bingo",
+      "item": [
+        {
+          "name": "Get Cartela (Gerar)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/bingo/cartela",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","bingo","cartela"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Cartela (Salvar em Sala)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bingo/cartela?roomUuid={{roomUuid}}&playerUuid={{playerUuid}}&roomName={{roomName}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","bingo","cartela"],
+              "query": [
+                { "key": "roomUuid", "value": "{{roomUuid}}" },
+                { "key": "playerUuid", "value": "{{playerUuid}}" },
+                { "key": "roomName", "value": "{{roomName}}" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Sala",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sala-1\",\n  \"maxPlayers\": 10,\n  \"password\": \"secret\",\n  \"status\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bingo/sala",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","bingo","sala"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sorteia (Sortear Número)",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/bingo/sorteia?room={{roomName}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","bingo","sorteia"],
+              "query": [
+                { "key": "room", "value": "{{roomName}}" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Sorteados",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/bingo/sorteados?room={{roomName}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","bingo","sorteados"],
+              "query": [
+                { "key": "room", "value": "{{roomName}}" }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

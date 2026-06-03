@@ -2,20 +2,19 @@
 
 .auth-container {
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
   gap: $spacing-xl;
   padding: $spacing-lg;
-  align-items: center;
   background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-
-  @include responsive('md') {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
 }
 
 .auth-card {
+  width: 100%;
+  max-width: 540px;
+  z-index: 1;
   background-color: var(--bg-secondary);
   padding: $spacing-2xl;
   border-radius: $radius-lg;
@@ -149,7 +148,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+  position: absolute;
+  top: 50%;
+  right: $spacing-lg;
+  transform: translateY(-50%);
+  width: 320px;
+  max-width: 360px;
+  pointer-events: none;
 
   @include responsive('md') {
     display: none;
@@ -157,8 +162,8 @@
 
   .decoration {
     position: relative;
-    width: 300px;
-    height: 300px;
+    width: 280px;
+    height: 280px;
 
     .circle {
       position: absolute;

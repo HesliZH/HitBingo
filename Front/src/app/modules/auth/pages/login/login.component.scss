@@ -2,15 +2,16 @@
 
 .auth-container {
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
   gap: $spacing-xl;
   padding: $spacing-lg;
-  align-items: center;
   background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
 
   @include responsive('md') {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: 0;
   }
 }
@@ -149,7 +150,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+  position: absolute;
+  top: 50%;
+  right: $spacing-lg;
+  transform: translateY(-50%);
+  width: 320px;
+  max-width: 360px;
+  pointer-events: none;
 
   @include responsive('md') {
     display: none;
